@@ -282,8 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
         seasonNameEl.textContent = season.fullName;
         seasonTitleEl.innerHTML = season.title.replace('\n', '<br/>');
 
-        // Date Format: "2026년 1월 4일 일요일"
-        dateDisplayEl.textContent = date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
+        // Date Format: "2026년 1월 4일" (Removed weekday as requested)
+        dateDisplayEl.textContent = date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
 
         // Color Info
         colorNameEl.textContent = colorInfo.name;

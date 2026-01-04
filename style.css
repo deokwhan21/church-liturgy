@@ -292,3 +292,82 @@ body {
   pointer-events: none;
   transition: background-color 1s ease;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+  .app-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  /* Stack date controls for mobile */
+  .date-controls {
+    margin-bottom: 1rem;
+  }
+
+  .week-section {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    /* Space for scrollbar if needed */
+  }
+
+  .week-buttons {
+    min-width: max-content;
+    /* Ensure buttons don't squash too much */
+  }
+
+  .main-content {
+    padding: 2rem 1.5rem;
+    height: auto;
+    overflow: visible;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+    /* Smaller title on mobile */
+  }
+
+  .meta-info {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    /* Stack cards */
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .card-value {
+    font-size: 1.5rem;
+  }
+
+  .bg-shape {
+    width: 100%;
+    right: 0;
+    top: 0;
+    opacity: 0.1;
+  }
+
+  .keyboard-controls {
+    display: none;
+    /* Hide keyboard hints on mobile */
+  }
+}
