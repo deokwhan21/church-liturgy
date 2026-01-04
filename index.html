@@ -1,98 +1,131 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교회력 Liturgical Calendar</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- SVG Icons can be inline or loaded. For simplicity, using inline SVGs or simple text for now -->
 </head>
+
 <body>
 
-    <div class="container animate-fade">
-        <h1>Liturgical Calendar</h1>
-        
-        <div id="result-area">
-            <div class="season-name" id="seasonName">로딩 중...</div>
-            <div class="season-desc" id="seasonDesc">날짜를 선택하세요</div>
-        </div>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">✨</span>
+                    <span class="logo-text">AI STUDIO (미리보기)</span>
+                </div>
+                <div class="status-badge">설정필요</div>
+            </div>
 
-        <div class="date-picker-wrapper">
-            <input type="date" id="dateInput">
-        </div>
-        
-        <footer id="footerMsg">
-            오늘의 예전 색상입니다
-        </footer>
+            <div class="sidebar-info-box">
+                <div class="info-title">CURRENT ENVIRONMENT</div>
+                <div class="info-desc">
+                    개발 도구 내부 화면입니다. 실제 배포된 주소로 접속하면 "Vercel 라이브"가 활성화됩니다.
+                </div>
+            </div>
+
+            <div class="search-section">
+                <div class="search-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <h2>날짜 퀵 검색</h2>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">YEAR</div>
+                    <div class="control-label">MONTH</div>
+                </div>
+
+                <div class="date-controls">
+                    <div class="year-selector">
+                        <input type="number" id="yearInput" value="2026" min="1900" max="2100">
+                    </div>
+                    <div class="month-selector">
+                        <select id="monthInput">
+                            <option value="1">1월</option>
+                            <option value="2">2월</option>
+                            <option value="3">3월</option>
+                            <option value="4">4월</option>
+                            <option value="5">5월</option>
+                            <option value="6">6월</option>
+                            <option value="7">7월</option>
+                            <option value="8">8월</option>
+                            <option value="9">9월</option>
+                            <option value="10">10월</option>
+                            <option value="11">11월</option>
+                            <option value="12">12월</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="week-section">
+                    <div class="control-label">WEEK OF MONTH</div>
+                    <div class="week-buttons" id="weekSelector">
+                        <button class="week-btn active" data-week="1">1주</button>
+                        <button class="week-btn" data-week="2">2주</button>
+                        <button class="week-btn" data-week="3">3주</button>
+                        <button class="week-btn" data-week="4">4주</button>
+                        <button class="week-btn" data-week="5">5주</button>
+                    </div>
+                </div>
+
+                <div class="keyboard-controls">
+                    <span>KEYBOARD CONTROLS</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <div class="context-tag">CHURCH CALENDAR CONTEXT</div>
+
+                <h1 class="main-title" id="seasonName">성탄절 후 2번째 주일</h1>
+
+                <div class="meta-info">
+                    <div class="meta-item">
+                        <span class="icon">📅</span>
+                        <span id="dateDisplay">2026년 1월 4일 일</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="icon">ℹ️</span>
+                        <span id="colorName">흰색 (White)</span>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="info-card">
+                        <div class="card-label">현재 절기</div>
+                        <h3 class="card-value" id="seasonTitle">성탄절기<br>(Christmastide)</h3>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="card-label">스톨 컬러 의미</div>
+                        <p class="card-desc" id="colorMeaning">
+                            성결, 기쁨, 그리스도의 영광을 상징합니다. (성탄절, 부활절)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Background Decoration -->
+            <div class="bg-shape"></div>
+        </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const dateInput = document.getElementById('dateInput');
-            const seasonNameEl = document.getElementById('seasonName');
-            const seasonDescEl = document.getElementById('seasonDesc');
-            const body = document.body;
-            const footerMsg = document.getElementById('footerMsg');
-
-            // Set Initial Date to Today
-            const today = new Date();
-            dateInput.valueAsDate = today;
-
-            function updateUI(date) {
-                const season = window.LiturgicalApp.getLiturgicalDetails(date);
-                
-                // Text Update
-                seasonNameEl.textContent = season.name;
-                seasonDescEl.textContent = season.desc;
-                
-                // Color Update logic
-                // Map logical color names to CSS variables or exact hex
-                const colorMap = {
-                    'purple': '#6b21a8',
-                    'white': '#cbd5e1', // Using a soft gray-blue for White seasons background to keep text readable, or inverse?
-                    // "White" seasons are usually gold/white. 
-                    // Let's use Gold for White seasons background.
-                    // Actually, if background is dark, text must be light.
-                    // Let's stick to the requested colors but ensuring readability.
-                    'green': '#15803d',
-                    'red': '#dc2626'
-                };
-                
-                let bgColor = colorMap[season.color] || '#f8fafc';
-                
-                // Special handling for White to look good
-                if (season.color === 'white') {
-                    bgColor = '#fbbf24'; // Amber/Gold for "White/Gold" season
-                    if (season.detail === '부활절' || season.name === '성탄절') {
-                         bgColor = '#fcd34d'; 
-                    }
-                }
-                
-                // Apply colors
-                body.style.backgroundColor = bgColor;
-                
-                // Adjust text contrast based on background
-                // Simple logic: If Purple/Green/Red -> Dark background, Light Text needed?
-                // The card is white glassmorphism, so text inside card is always dark (set in CSS .container).
-                // The BODY background changes.
-                // Text inside the card is safe.
-                
-                // Trigger animation
-                seasonNameEl.classList.remove('animate-fade');
-                void seasonNameEl.offsetWidth; // trigger reflow
-                seasonNameEl.classList.add('animate-fade');
-            }
-
-            // Initial Update
-            updateUI(today);
-
-            // Listener
-            dateInput.addEventListener('change', (e) => {
-                if(e.target.valueAsDate) {
-                    updateUI(e.target.valueAsDate);
-                }
-            });
-        });
-    </script>
 </body>
+
 </html>
